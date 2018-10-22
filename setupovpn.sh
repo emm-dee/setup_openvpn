@@ -1,6 +1,7 @@
 #!/bin/bash
-## Configure server to run node.js applications within pm2
 
+#pass in your domain name when executing
+domain_name=${1}
 
 # Reserved for cloud-init Terraform deploy script template
 sudo hostname ${hostname}.${domain_name}
@@ -50,8 +51,7 @@ sudo echo "topology subnet" >> /etc/openvpn/server.conf
 sudo echo "server 10.10.199.0 255.255.255.0" >> /etc/openvpn/server.conf
 sudo echo "ifconfig-pool-persist ipp.txt" >> /etc/openvpn/server.conf
 sudo echo "push \"route 10.10.0.0 255.255.0.0\"" >> /etc/openvpn/server.conf
-sudo echo "push \"dhcp-option  DOMAIN-SEARCH nma.cloud\"" >> /etc/openvpn/server.conf
-sudo echo "push \"dhcp-option  DOMAIN-SEARCH nationalmerchants.com\"" >> /etc/openvpn/server.conf
+sudo echo "push \"dhcp-option  DOMAIN-SEARCH ${domain_name}\"" >> /etc/openvpn/server.conf
 sudo echo "push \"dhcp-option DNS 10.10.21.254\"" >> /etc/openvpn/server.conf
 sudo echo "push \"dhcp-option DNS 10.1.253.18\"" >> /etc/openvpn/server.conf
 sudo echo "keepalive 10 120" >> /etc/openvpn/server.conf
@@ -74,11 +74,11 @@ sudo mkdir -p /home/ubuntu/clientkeys/zipfiles/keys/
 
 sudo sed -i 's/KEY\_COUNTRY.*/KEY\_COUNTRY\=\"US\"/' /etc/openvpn/easy-rsa/vars
 sudo sed -i 's/KEY\_PROVINCE.*/KEY\_PROVINCE\=\"CA\"/' /etc/openvpn/easy-rsa/vars
-sudo sed -i 's/KEY\_CITY.*/KEY\_CITY\=\"Temecula\"/' /etc/openvpn/easy-rsa/vars
-sudo sed -i 's/KEY\_ORG.*/KEY\_ORG\=\"NMA\"/' /etc/openvpn/easy-rsa/vars
-sudo sed -i 's/KEY\_EMAIL.*/KEY\_EMAIL\=\"noreply@nma.cloud\"/' /etc/openvpn/easy-rsa/vars
-sudo sed -i 's/KEY\_OU.*/KEY\_OU\=\"NMADev\"/' /etc/openvpn/easy-rsa/vars
-sudo sed -i 's/KEY\_NAME.*/KEY\_NAME\=\"nmavpnserver\"/' /etc/openvpn/easy-rsa/vars
+sudo sed -i 's/KEY\_CITY.*/KEY\_CITY\=\"Somewhere\"/' /etc/openvpn/easy-rsa/vars
+sudo sed -i 's/KEY\_ORG.*/KEY\_ORG\=\"Site\"/' /etc/openvpn/easy-rsa/vars
+sudo sed -i 's/KEY\_EMAIL.*/KEY\_EMAIL\=\"noreply@example.com\"/' /etc/openvpn/easy-rsa/vars
+sudo sed -i 's/KEY\_OU.*/KEY\_OU\=\"Dev\"/' /etc/openvpn/easy-rsa/vars
+sudo sed -i 's/KEY\_NAME.*/KEY\_NAME\=\"vpnserver\"/' /etc/openvpn/easy-rsa/vars
 sudo sed -i 's/KEY\_SIZE.*/KEY\_SIZE\=\"4096\"/' /etc/openvpn/easy-rsa/vars
 sudo sed -i 's/pkitool\"\ \-\-interact/pkitool\"/' /etc/openvpn/easy-rsa/build-ca
 sudo sed -i 's/pkitool\"\ \-\-interact/pkitool\"/' /etc/openvpn/easy-rsa/build-key-server
