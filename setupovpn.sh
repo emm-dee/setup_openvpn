@@ -1,7 +1,8 @@
 #!/bin/bash
 
-#pass in your domain name when executing
+#pass in your domain name and hostname when executing
 domain_name=${1}
+domain_name=${2}
 
 # Reserved for cloud-init Terraform deploy script template
 sudo hostname ${hostname}.${domain_name}
